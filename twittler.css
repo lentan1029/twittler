@@ -1,0 +1,41 @@
+/*
+Taken from twitter
+*/
+
+body {
+    background-color: #f5f8fa;
+}
+
+div {
+  background-color: white;
+  display: inline-block;
+  font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  border-color: #eee #ddd #bbb;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  margin: 10px 10px 10px 10px;
+  padding: 0px 0px 0px 16px;
+  width: 75%;
+}
+ 
+div p {
+  font-size: 16px;
+  font-weight: normal;
+}
+ 
+div a {
+  color: inherit;
+  font-weight: normal;
+  text-decoration: none;
+  outline: 0 none;
+}
+ 
+div a:hover,
+div a:focus {
+  text-decoration: underline;
+}

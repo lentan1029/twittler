@@ -1,24 +1,72 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="twittler.css">
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
   </head>
   <body>
     <script>
+      var context = "all";
+
+      function homePage(){
+        context = "all";
+        var index = streams.home.length - 1;
+        while(index >= 0){
+          displayTweet(streams.home[index]);
+          index -= 1; 
+        }
+      }
+
+      function userPage(user){
+        context = user;
+        var $body = $('body');
+        $body.html('');
+        var index = streams.users[user].length - 1;
+        while(index >= 0){
+          displayTweet(streams.users[user][index]);
+          index -= 1; 
+        }
+      }
+
+      function displayTweet(tweet){
+        var $tweet = $('<div><p>[' + timeStamp() + '] @<a href="javascript: userPage(\'' + tweet.user + '\')">' + tweet.user + '</a>: ' + tweet.message + '</p></div>');
+        $("body").prepend($tweet);
+      }
+
+      function timeStamp(){
+        var time = new Date();
+        var hours = ('0' + time.getHours()).slice(-2);
+        var minutes = ('0' + time.getMinutes()).slice(-2);
+        var seconds = ('0' + time.getSeconds()).slice(-2);
+
+        return hours + ":" + minutes + ":" + seconds;
+      }
 
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
+        //add listener to push function
+        streams.home.push = function(){
+          if(streams.home.watch && typeof streams.home.watch == "function"){
+            streams.home.watch();
+          }
+          Array.prototype.push.apply(this, arguments)
         }
+
+        //callback
+        streams.home.watch = function(){
+          if(context == "all"){
+            displayTweet(streams.home[streams.home.length - 1]);
+          } else {
+            displayTweet(streams.users[context][streams.users[context].length - 1]);
+          }
+        }
+
+        homePage();
+        
+
 
       });
 
